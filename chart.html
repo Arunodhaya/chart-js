@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+window.onload = function() {
+
+var dataPoints = [];
+
+var options =  {
+	animationEnabled: true,
+	theme: "light1",
+	title: {
+		text: "Date vs Rates"
+	},
+	axisX: {
+		
+	},
+	axisY: {
+		title: "JPY",
+		titleFontSize: 24,
+		includeZero: false
+	},
+	data: [{
+		type: "splineArea", 
+		dataPoints: dataPoints
+	}]
+};
+
+function addData(data) {
+	var res = JSON.parse(JSON.stringify(data))
+		//  console.log('11'+Object.keys(res.rates)); 
+
+	   var dates= Object.keys(res.rates)
+	//    console.log(dates)
+       dates.sort()
+	//  console.log(dates.sort())
+	// for (var i = 0; i <dates.length; i++)
+	   for (var i = 0; i < 50; i++) {
+		   console.log(dates[i]+"=="+res.rates[dates[i]].JPY)
+		dataPoints.push({
+			x: new Date(dates[i]),
+			y: res.rates[dates[i]].JPY
+		});}
+		
+	$("#chartContainer").CanvasJSChart(options);}
+$.getJSON("https://api.exchangeratesapi.io/history?start_at=2018-01-01&end_at=2018-09-01&symbols=ILS,JPY", addData);
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+</body>
+</html>
